@@ -74,12 +74,18 @@ function updateBattleLogs(data) {
     data.data.forEach(instance => {
         switch (instance.cmd) {
             case "super":
+                for (const [key, value] of Object.entries(instance.list)) {
+                    value.damage.forEach(hit => {
+                        let log = "Turn " + data.turn + ": " + instance.name + " #" +  (parseInt(key)+1) + " from Boss dealt " + hit.value + " " + getElement(hit.attr) + " to Character #" + (parseInt(hit.pos)+1) + ". ";
+                        UI.appendList("damage-received", log);
+                    });
+                }
 
                 break;
             case "attack":
                 for (const [key, value] of Object.entries(instance.damage)) {
                     value.forEach(hit => {
-                        let log = "Turn " + data.turn + ": Attack #" + key + " from Boss dealt " + hit.value + " " + getElement(hit.attr) + " to Character #" + hit.pos + ". ";
+                        let log = "Turn " + data.turn + ": Auto #" + key + " from Boss dealt " + hit.value + " " + getElement(hit.attr) + " to Character #" + (parseInt(hit.pos)+1) + ". ";
                         UI.appendList("damage-received", log);
                     });
                 }
@@ -90,13 +96,34 @@ function updateBattleLogs(data) {
 function getElement(no){
     let index = parseInt(no);
     var elements = [];
-    elements[1] = "Fire";
-    elements[2] = "Water";
-    elements[3] = "Earth";
-    elements[4] = "Wind";
-    elements[5] = "light";
-    elements[6] = "Dark";
+    elements[1] = '<span style="color: #C62828">Fire</span>';
+    elements[2] = '<span style="color: #1976D2">Water</span>';
+    elements[3] = '<span style="color: #F57C00">Earth</span>';
+    elements[4] = '<span style="color: #00E676">Wind</span>';
+    elements[5] = '<span style="color: #C0CA33">Light</span>';
+    elements[6] = '<span style="color: #6A1B9A">Dark</span>';
     return elements[index];
+}
+
+window.onload = function() {
+    document.getElementById('download-logs').addEventListener('click', exportLogs, false);
+}
+
+function exportLogs(){
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    let data = document.getElementById('damage-received').innerHTML;
+    data = data.replace(/\s+/gm, " ");
+    data = data.replace(/<li>/gm, "\n");
+    data = data.replace(/<[^>]*>/gm, "");
+    // var json = JSON.stringify(data),
+    blob = new Blob([data], {type: "octet/stream"}),
+    url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = "logs.txt";
+    a.click();
+    window.URL.revokeObjectURL(url);
 }
 
 function updateStatus(data) {

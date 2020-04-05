@@ -39,7 +39,8 @@ window.UI = {
     appendList(id, text){        
         var ul = document.getElementById(id);
         var li = document.createElement("li");
-        li.appendChild(document.createTextNode(text));
+        // li.appendChild(document.createTextNode(text));
+        li.innerHTML = text;
         ul.appendChild(li);
     },
 
