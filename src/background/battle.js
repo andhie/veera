@@ -565,6 +565,7 @@ function battleParseDamage(input, actionData, type) {
                     }
                     var dmg = parseInt(entry.value); // vars are block-scoped so it can fall-through
                     actionData.dmgTaken[char] += dmg;
+                    
                 // eslint-disable-next-line no-fallthrough
                 case BATTLE_ACTION_TYPES.dmgDealt:
                     dmg = dmg || parseInt(entry.value); // Scoped var is visible even if not initialized. Skip parseInt on fall-through.
@@ -630,7 +631,6 @@ function battleUseAbility(json, postData) {
     // Battle.log.checkReset();
     var actions = [],
         actionData;
-
     for (let action of json.scenario) {
         switch (action.cmd) {
             case "ability":
@@ -714,7 +714,10 @@ function battleAttack(json) {
         boss.currentTurnOugi.triggered = false;
     });
     var unit;
+    var logs = [];
+
     for (let action of json.scenario) {
+        let log = "";
         switch (action.cmd) {
             case "super": // Boss ougi
                 isPlayerTurn = false;
@@ -731,6 +734,7 @@ function battleAttack(json) {
                     actionData.noDmgOugi = true;
                 }
                 actions.push(actionData);
+                logs.push(actionData);
                 break;
             case "special": // Player ougi
             case "special_npc": // Chara ougi
@@ -770,6 +774,7 @@ function battleAttack(json) {
                     if (action.hasOwnProperty("damage")) {
                         battleParseDamage(action.damage, actionData, BATTLE_ACTION_TYPES.dmgTaken);
                         actions.push(actionData);
+                        logs.push(actionData);
                         // checkInvalidatedDamage(actionData);
                     }
                 }
@@ -884,6 +889,7 @@ function battleAttack(json) {
         }
         devlog("Battle info updated", actions);
         updateUI("updBattleData", Battle.packageData());
+        updateUI("logBattle", logs);
         // Battle.activeTurns += 1;
     }
     Battle.current.turn = json.status.turn;

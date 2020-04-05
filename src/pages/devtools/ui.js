@@ -28,6 +28,7 @@ window.UI = {
     @arg {function} f - Defines transform of each entryArray item, given item.
     **/
     setList(list, entryArray, f) {
+        console.log(entryArray);
         list.innerHTML = "";
         let frag = document.createDocumentFragment();
         for (let entry of entryArray) {

@@ -69,6 +69,25 @@ function updatePendants(data) {
         {id: "panel-prestige-crew-max", value: data.prestige.crew.max}
     ]);
 }
+
+function updateBattleLogs(data) {
+    // let list = document.getElementById("damage-received");
+    // // UI.setList(list, data, function(d){
+    //     // var li = document.createElement('li');
+
+    //     //
+    //     // var log = "";
+    //     // for (const [key, value] of Object.entries(d.dmgTaken)) {
+    //     //     log += "Character #" + (parseInt(key)+1) + " has received " + value + " damages from the boss." ;
+    //     // }
+
+    //     // li.textContent = log;
+    //     // return li;
+    // // });
+    // devlog(data);
+    // UI.setList(list, ["<li>stupid</li>", "<li>html</li>"], null);
+}
+
 function updateStatus(data) {
     UI.setValue([
         {id: "ap-current", value: data.ap.current},
