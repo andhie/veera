@@ -1,8 +1,8 @@
-window.SETTINGS = {debug: false}; // Needed for basic functions, called before inits.
+window.SETTINGS = { debug: false }; // Needed for basic functions, called before inits.
 
 // Adding a last item in array macro
 Object.defineProperty(Array.prototype, "last", {
-    get: function() {
+    get: function () {
         return this.length === 0 ? 0 : this[this.length - 1];
     }
 });
@@ -49,51 +49,62 @@ function devlog() {
 // Status
 function updatePendants(data) {
     UI.setValue([
-        {id: "display-renown-total", value: data.renown.total.current},
-        {id: "panel-renown-weekly", value: data.renown.weekly.current},
-        {id: "panel-renown-daily", value: data.renown.daily.current},
-        {id: "panel-renown-sr", value: data.renown.sr.current},
-        {id: "panel-renown-r", value: data.renown.r.current},
-        {id: "display-prestige-total", value: data.prestige.total.current},
-        {id: "panel-prestige-weekly", value: data.prestige.weekly.current},
-        {id: "panel-prestige-crew", value: data.prestige.crew.current}
+        { id: "display-renown-total", value: data.renown.total.current },
+        { id: "panel-renown-weekly", value: data.renown.weekly.current },
+        { id: "panel-renown-daily", value: data.renown.daily.current },
+        { id: "panel-renown-sr", value: data.renown.sr.current },
+        { id: "panel-renown-r", value: data.renown.r.current },
+        { id: "display-prestige-total", value: data.prestige.total.current },
+        { id: "panel-prestige-weekly", value: data.prestige.weekly.current },
+        { id: "panel-prestige-crew", value: data.prestige.crew.current }
     ]);
     UI.setValue([
-        {id: "display-renown-max", value: data.renown.total.max},
-        {id: "panel-renown-weekly-max", value: data.renown.weekly.max},
-        {id: "panel-renown-daily-max", value: data.renown.daily.max},
-        {id: "panel-renown-sr-max", value: data.renown.sr.max},
-        {id: "panel-renown-r-max", value: data.renown.r.max},
-        {id: "display-prestige-max", value: data.prestige.total.max},
-        {id: "panel-prestige-weekly-max", value: data.prestige.weekly.max},
-        {id: "panel-prestige-crew-max", value: data.prestige.crew.max}
+        { id: "display-renown-max", value: data.renown.total.max },
+        { id: "panel-renown-weekly-max", value: data.renown.weekly.max },
+        { id: "panel-renown-daily-max", value: data.renown.daily.max },
+        { id: "panel-renown-sr-max", value: data.renown.sr.max },
+        { id: "panel-renown-r-max", value: data.renown.r.max },
+        { id: "display-prestige-max", value: data.prestige.total.max },
+        { id: "panel-prestige-weekly-max", value: data.prestige.weekly.max },
+        { id: "panel-prestige-crew-max", value: data.prestige.crew.max }
     ]);
 }
 
 function updateBattleLogs(data) {
-    // let list = document.getElementById("damage-received");
-    // // UI.setList(list, data, function(d){
-    //     // var li = document.createElement('li');
+    data.data.forEach(instance => {
+        switch (instance.cmd) {
+            case "super":
 
-    //     //
-    //     // var log = "";
-    //     // for (const [key, value] of Object.entries(d.dmgTaken)) {
-    //     //     log += "Character #" + (parseInt(key)+1) + " has received " + value + " damages from the boss." ;
-    //     // }
+                break;
+            case "attack":
+                for (const [key, value] of Object.entries(instance.damage)) {
+                    value.forEach(hit => {
+                        let log = "Turn " + data.turn + ": Attack #" + key + " from Boss dealt " + hit.value + " " + getElement(hit.attr) + " to Character #" + hit.pos + ". ";
+                        UI.appendList("damage-received", log);
+                    });
+                }
+        }
+    });
+}
 
-    //     // li.textContent = log;
-    //     // return li;
-    // // });
-    // devlog(data);
-    // UI.setList(list, ["<li>stupid</li>", "<li>html</li>"], null);
+function getElement(no){
+    let index = parseInt(no);
+    var elements = [];
+    elements[1] = "Fire";
+    elements[2] = "Water";
+    elements[3] = "Earth";
+    elements[4] = "Wind";
+    elements[5] = "light";
+    elements[6] = "Dark";
+    return elements[index];
 }
 
 function updateStatus(data) {
     UI.setValue([
-        {id: "ap-current", value: data.ap.current},
-        {id: "bp-current", value: data.bp.current},
-        {id: "ap-max", value: data.ap.max},
-        {id: "rank", value: data.level}
+        { id: "ap-current", value: data.ap.current },
+        { id: "bp-current", value: data.bp.current },
+        { id: "ap-max", value: data.ap.max },
+        { id: "rank", value: data.level }
         /* ,{
             id: "",
             value: data.lvlP
@@ -106,18 +117,18 @@ function updateStatus(data) {
 }
 function updateArca(data) {
     UI.setValue([
-        {id: "num-arc-tck", value: data.tickets.current},
-        {id: "max-arc-tck", value: data.tickets.max},
-        {id: "num-arc-pts", value: data.points.current},
-        {id: "max-arc-pts", value: data.points.max}
+        { id: "num-arc-tck", value: data.tickets.current },
+        { id: "max-arc-tck", value: data.tickets.max },
+        { id: "num-arc-pts", value: data.points.current },
+        { id: "max-arc-pts", value: data.points.max }
     ], true);
 }
 function updateCurrencies(data) {
     UI.setValue([
-        {id: "num-rupies", value: data.rupie.count},
-        {id: "num-cp", value: data.cp.count},
-        {id: "num-crystal", value: data.crystals.count},
-        {id: "num-chips", value: data.casinoChips.count}
+        { id: "num-rupies", value: data.rupie.count },
+        { id: "num-cp", value: data.cp.count },
+        { id: "num-crystal", value: data.crystals.count },
+        { id: "num-chips", value: data.casinoChips.count }
     ], true);
 
     updateSupplies([
@@ -178,7 +189,7 @@ function createPlannerItem(item) {
     return li;
 }
 function changeSeries(ev) { // Event handler, updates type and element list when series changes
-    BackgroundPage.send("plannerSeriesChange", {newValue: ev.target.value});
+    BackgroundPage.send("plannerSeriesChange", { newValue: ev.target.value });
 }
 function updateSeriesOptions(data) { // receives list of each option type.
     UI.planner.populateSelection("type", data.types);
@@ -241,7 +252,7 @@ function updCurrentRaidInfo(data) {
         }
     }
     else if (data.hasOwnProperty("nextQuest")) {
-        UI.setValue({id: "raid-next-quest", value: data.nextQuest || ""});
+        UI.setValue({ id: "raid-next-quest", value: data.nextQuest || "" });
     }
 }
 function createRaid(raidEntry) {
@@ -298,7 +309,7 @@ function populateRaids(raids) {
 }
 
 function updLastSupport(data) {
-    UI.setValue({id: "last-sup-sum", value: data.summon});
+    UI.setValue({ id: "last-sup-sum", value: data.summon });
     let u = document.getElementById("last-sup-usr");
     u.dataset.value = data.url;
     u.textContent = data.user;
@@ -306,9 +317,9 @@ function updLastSupport(data) {
 
 function updSparkProgress(data) {
     UI.setValue([
-        {id: "spark-prog-days", value: data.time},
-        {id: "spark-prog-crystals", value: data.needed},
-        {id: "spark-prog-avg", value: data.avg},
-        {id: "spark-prog-eta", value: data.eta}
+        { id: "spark-prog-days", value: data.time },
+        { id: "spark-prog-crystals", value: data.needed },
+        { id: "spark-prog-avg", value: data.avg },
+        { id: "spark-prog-eta", value: data.eta }
     ]);
 }

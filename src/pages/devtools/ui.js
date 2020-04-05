@@ -28,13 +28,19 @@ window.UI = {
     @arg {function} f - Defines transform of each entryArray item, given item.
     **/
     setList(list, entryArray, f) {
-        console.log(entryArray);
         list.innerHTML = "";
         let frag = document.createDocumentFragment();
         for (let entry of entryArray) {
             frag.appendChild(f ? f(entry) : entry);
         }
         list.appendChild(frag);
+    },
+
+    appendList(id, text){        
+        var ul = document.getElementById(id);
+        var li = document.createElement("li");
+        li.appendChild(document.createTextNode(text));
+        ul.appendChild(li);
     },
 
     switchNav: function(ev) {

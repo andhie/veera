@@ -734,7 +734,8 @@ function battleAttack(json) {
                     actionData.noDmgOugi = true;
                 }
                 actions.push(actionData);
-                logs.push(actionData);
+                logs.push(action);
+                console.log(action);
                 break;
             case "special": // Player ougi
             case "special_npc": // Chara ougi
@@ -774,7 +775,8 @@ function battleAttack(json) {
                     if (action.hasOwnProperty("damage")) {
                         battleParseDamage(action.damage, actionData, BATTLE_ACTION_TYPES.dmgTaken);
                         actions.push(actionData);
-                        logs.push(actionData);
+                        logs.push(action);
+                        console.log(action);
                         // checkInvalidatedDamage(actionData);
                     }
                 }
@@ -889,7 +891,11 @@ function battleAttack(json) {
         }
         devlog("Battle info updated", actions);
         updateUI("updBattleData", Battle.packageData());
-        updateUI("logBattle", logs);
+        let logPackage = {
+            data:logs,
+            turn:Battle.current.turn
+        }
+        updateUI("logBattle", logPackage);
         // Battle.activeTurns += 1;
     }
     Battle.current.turn = json.status.turn;
