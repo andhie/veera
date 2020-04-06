@@ -76,7 +76,7 @@ function updateBattleLogs(data) {
             case "super":
                 for (const [key, value] of Object.entries(instance.list)) {
                     value.damage.forEach(hit => {
-                        let log = "Turn " + data.turn + ": " + instance.name + " #" +  (parseInt(key)+1) + " from Boss dealt " + hit.value + " " + getElement(hit.attr) + " to Character #" + (parseInt(hit.pos)+1) + ". ";
+                        let log = "Turn " + data.turn + ": " + instance.name + " #" +  (parseInt(key)+1) + " from Boss #" + (parseInt(instance.pos)+1) + " dealt " + + hit.value + " " + getElement(hit.attr) + " to Character #" + (parseInt(hit.pos)+1) + ". ";
                         UI.appendList("damage-received", log);
                     });
                 }
@@ -85,7 +85,7 @@ function updateBattleLogs(data) {
             case "attack":
                 for (const [key, value] of Object.entries(instance.damage)) {
                     value.forEach(hit => {
-                        let log = "Turn " + data.turn + ": Auto #" + key + " from Boss dealt " + hit.value + " " + getElement(hit.attr) + " to Character #" + (parseInt(hit.pos)+1) + ". ";
+                        let log = "Turn " + data.turn + ": Auto #" + key + " from Boss #" + (parseInt(instance.pos)+1) + " dealt " + hit.value + " " + getElement(hit.attr) + " to Character #" + (parseInt(hit.pos)+1) + ". ";
                         UI.appendList("damage-received", log);
                     });
                 }
@@ -96,6 +96,7 @@ function updateBattleLogs(data) {
 function getElement(no){
     let index = parseInt(no);
     var elements = [];
+    elements[0] = '<span style="color: #BDBDBD">Plain</span>';
     elements[1] = '<span style="color: #C62828">Fire</span>';
     elements[2] = '<span style="color: #1976D2">Water</span>';
     elements[3] = '<span style="color: #F57C00">Earth</span>';
