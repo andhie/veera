@@ -1,0 +1,94 @@
+#rewards
+http://game.granbluefantasy.jp/resultmulti/data/21635504288?_=1609763753371&t=1609763753371&uid=16473399
+
+#UI loading
+http://game.granbluefantasy.jp/resultmulti/content/index/21635504288/3?_=1609763566837&t=1609763752938&uid=164733991
+
+#raid ended
+http://game.granbluefantasy.jp/resultmulti/check_reward/21635504288?_=1609763566836&t=1609763752758&uid=16473399
+reward_flag: true
+
+#entered raid
+http://game.granbluefantasy.jp/multiraid/content/index/21634990156?_=1609761496234&t=1609761496437&uid=16473399
+redirect: "#quest/index/21634990156"
+
+#Selected summon but raid ended (mystery captcha?!!!)
+http://game.granbluefantasy.jp/quest/raid_deck_data_create?_=1609760279987&t=1609760279988&uid=16473399
+error_type: 1
+is_host: false
+raid_id: 21634059305
+result: false
+
+#select friend summon and team
+http://game.granbluefantasy.jp/rest/quest/decks_info/11485703/770881/1/guest/15/5/0/0?_=1609758622960&t=1609760262976&uid=16473399
+auto_party_recommend_attr: []
+deck_list: {1: {order_no: 1, group_priority: "5", priority: "1", name: "剣FAuto", text_id: "33682050",…},…}
+event_name: "treasureraid102"
+is_assist_bonus: false
+is_available_skill: true
+is_clear: false
+is_event: false
+is_event_quest: true
+is_recommend_alert: false
+is_recommend_multi_alert: false
+last_used_deck_priority: 1
+last_used_group_priority: "5"
+no_attribute_flag: ""
+no_skill_battle: ""
+order_no: 1
+recommend_attr: 5
+supporter: {suppoter_viewer_id: "133898912", suppoter_nick_name: "迪卢克回家", summon_id: "2040056000",…}
+friend_flg: true
+is_used: 0
+level: "203"
+summon_id: "2040056000"
+summon_image_id: "2040056000_02"
+summon_level: "200"
+summon_name: "ルシフェル"
+summon_quality: "99"
+summon_skill_comment: "光属性攻撃力が150%UP"
+summon_skill_name: "ルシフェルの加護"
+suppoter_nick_name: "迪卢克回家"
+suppoter_viewer_id: "133898912"
+user_setting_recommend_alert: "1"
+
+#load
+http://game.granbluefantasy.jp/deckcombination/deck_combination_group_list?_=1609758622959&t=1609760262794&uid=16473399
+deck_combination_group: {,…}
+1: {id: "255219", amount: "6", max_amount: "6", open_flag: true, priority: "1", symbolmark_id: "60010",…}
+2: {id: "319847", amount: "6", max_amount: "6", open_flag: true, priority: "2", symbolmark_id: "60020",…}
+3: {id: "319849", amount: "6", max_amount: "6", open_flag: true, priority: "3", symbolmark_id: "60040",…}
+4: {id: "319851", amount: "6", max_amount: "6", open_flag: true, priority: "4", symbolmark_id: "60030",…}
+5: {id: "319853", amount: "6", max_amount: "6", open_flag: true, priority: "5", symbolmark_id: "60050",…}
+6: {id: "319854", amount: "6", max_amount: "6", open_flag: true, priority: "6", symbolmark_id: "60060",…}
+7: {id: "319855", amount: "6", max_amount: "6", open_flag: true, priority: "7", symbolmark_id: "60070",…}
+8: {id: "945087", amount: "6", max_amount: "6", open_flag: true, priority: "8", symbolmark_id: "10010",…}
+9: {id: "945089", amount: "6", max_amount: "6", open_flag: true, priority: "9", symbolmark_id: "10020",…}
+10: {id: "945091", amount: "6", max_amount: "6", open_flag: true, priority: "10", symbolmark_id: "10030",…}
+11: {id: "945093", amount: "6", max_amount: "6", open_flag: true, priority: "11", symbolmark_id: "10040",…}
+12: {id: "945096", amount: "6", max_amount: "6", open_flag: true, priority: "12", symbolmark_id: "10050",…}
+13: {id: "945099", amount: "6", max_amount: "6", open_flag: true, priority: "13", symbolmark_id: "10060",…}
+14: {id: "945100", amount: "6", max_amount: "6", open_flag: true, priority: "14", symbolmark_id: "50030",…}
+15: {id: "3418429", amount: "6", max_amount: "6", open_flag: true, priority: "15", symbolmark_id: "60010",…}
+16: {id: "3418430", amount: "6", max_amount: "6", open_flag: true, priority: "16", symbolmark_id: "60020",…}
+17: {id: "3418431", amount: "6", max_amount: "6", open_flag: true, priority: "17", symbolmark_id: "60040",…}
+18: {id: "3418432", amount: "6", max_amount: "6", open_flag: true, priority: "18", symbolmark_id: "60030",…}
+19: {id: "3418433", amount: "6", max_amount: "6", open_flag: true, priority: "19", symbolmark_id: "60050",…}
+20: {id: "3418434", amount: "6", max_amount: "6", open_flag: true, priority: "20", symbolmark_id: "60060",…}
+21: {id: "3418435", amount: "6", max_amount: "6", open_flag: true, priority: "21", symbolmark_id: "60070",…}
+is_open_deck_group_set_c: true
+
+#load summon UI after selected raid
+http://game.granbluefantasy.jp/quest/content/supporter_raid/21634059305/2/0?_=1609758622956&t=1609760189555&uid=16473399
+
+#check BP
+http://game.granbluefantasy.jp/quest/battle_point_check/21634059305/2?_=1609758622954&t=1609760189357&uid=16473399
+result: true
+
+#check whether can join?
+http://game.granbluefantasy.jp/quest/check_join_assist_raid/770881?_=1609758622953&t=1609760189172&uid=16473399
+result: true
+
+#check whether can join raid?
+http://game.granbluefantasy.jp/quest/check_multi_start?t=1609760188986&uid=16473399
+result: "ok"

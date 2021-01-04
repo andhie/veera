@@ -74,6 +74,8 @@ function MainInit() {
                 EVENTS.set = true;
             }
 
+            initializeWebSocketConnection();
+
             Time.sync();
             Time.checkReset();
 
@@ -254,4 +256,38 @@ function prepJson() {
 
 function safeDivide(a, b) {
     return a / (b || 1);
+}
+
+
+
+function initializeWebSocketConnection()
+{
+    const wsUri = "ws://localhost:17228/echo";
+
+    window.WebsocketConnection = new WebSocket(wsUri);
+    window.WebsocketConnection.onopen = () => {
+        console.log("CONNECTED");
+        let message = {
+            action: "init",
+            message: "Parazonium requests connection to Lloyd"
+        }
+        instructPuppet(message)
+    }
+    window.WebsocketConnection.onclose = () => {
+        console.log("DISCONNECTED");
+    };
+    // window.WebsocketConnection.onmessage = (evt) => {
+    //     console.log('RESPONSE: ' + evt.data);
+    //     // websocket.close();
+    // };
+    window.WebsocketConnection.onerror = (evt) => {
+        console.log('ERROR:' + evt.data);
+    };
+}
+
+function instructPuppet(message)
+{
+    console.log("SENT: ");
+    console.log(message);
+    window.WebsocketConnection.send(JSON.stringify(message));
 }

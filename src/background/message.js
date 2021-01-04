@@ -46,6 +46,7 @@ function hear(msg) {
         path = msg.data.url.pathname;
         isData = msg.data.url.protocol == "data:";
     }
+    console.log(msg);
     devlog("[background] Heard:", msg, isData ? "Data URI" : path);
     switch (msg.action) {
         case "request":
@@ -73,6 +74,9 @@ function hear(msg) {
                     case path.ismatch("item/gacha_ticket_and_others_list_by_filter_mode"):
                         Supplies.setTickets(msg.data.json);
                         break;
+                    case path.ismatch("resultmulti/content/empty"):
+                        //raid ended no rewards
+                        break
                     case path.ismatch("resultmulti/data"):// Raid loot screen
                     case path.ismatch("result/data"): // Quest loot screen
                         Battle.checkResultScreen(msg.data);
@@ -164,6 +168,10 @@ function hear(msg) {
                         break;
                     case path.ismatch("rest/raid/start"):
                     case path.ismatch("rest/multiraid/start"):
+                        instructPuppet({
+                            action: "raid_started",
+                            message: "Time to destroy"
+                        })
                         Battle.reset(msg.data.json);
                         break;
                     case path.ismatch("casino/exchange"):
@@ -256,6 +264,58 @@ function hear(msg) {
                     case path.ismatch("twitter/tweet"):
                         twitterRecovery(msg.data.json);
                         break;
+                    case path.ismatch("quest/check_multi_start"):
+                        instructPuppet({
+                            action: "raid_init",
+                            message: "Request to enter battle field"
+                        })
+                        break;
+                    case path.ismatch("quest/check_join_assist_raid"):
+                        instructPuppet({
+                            action: "raid_started",
+                            message: "Intrude!"
+                        })
+                        break;
+                    case path.ismatch("quest/battle_point_check"):
+                        if (msg.data.json.result) {
+                            instructPuppet({
+                                action: "enough_bp",
+                                message: "Energy check, clear."
+                            })
+                        } else {
+                            instructPuppet({
+                                action: "not_enough_bp",
+                                message: "Energy check, warning."
+                            })
+                        }
+                        break;
+                    case path.ismatch("quest/user_battle_point"):
+                        instructPuppet({
+                            action: "not_enough_bp",
+                            message: "Energy check, warning."
+                        })
+                    break;
+                    case path.ismatch("quest/content/supporter_raid"):
+                        instructPuppet({
+                            action: "friend_summon_loaded",
+                            message: "Select your partner in crime"
+                        })
+                        break;
+                    case path.ismatch("rest/quest/decks_info"):
+                        instructPuppet({
+                            action: "friend_summon_selected",
+                            message: "Ikuzo"
+                        })
+                        break;
+                    case path.ismatch("quest/raid_deck_data_create"):
+                        //dangerous endpoint that will show captcha
+                        if (!msg.data.json.result || false) {
+                            instructPuppet({
+                                action: "raid_full_or_ended",
+                                message: "Zan Nen"
+                            })
+                        } 
+                        break;
                 }
                 // General actions
                 if (/teamraid\d+\//.test(path)) {
@@ -263,7 +323,14 @@ function hear(msg) {
                 }
             }
             else if (msg.data.hasOwnProperty("html")) {
-                if (path.ismatch("maintenance")) {
+                if (path.ismatch("quest/battle_key_check")){
+                    if (msg.data.html.substring(2,7) == "popup") {
+                        instructPuppet({
+                            action: "raid_full_or_ended",
+                            message: "Zan Nen"
+                        })
+                    }
+                }else if (path.ismatch("maintenance")) {
                     startMaintTimer(msg.data.html);
                 }
             }

@@ -631,6 +631,11 @@ function battleUseAbility(json, postData) {
     // Battle.log.checkReset();
     var actions = [],
         actionData;
+    
+    instructPuppet({
+        action: "cast_skill",
+        message: "Action confirmed. Proceed"
+    })
     for (let action of json.scenario) {
         switch (action.cmd) {
             case "ability":
@@ -679,6 +684,10 @@ function battleUseAbility(json, postData) {
                 }
                 break;
             case "win":
+                instructPuppet({
+                    action: "won",
+                    message: "Lloyd has killed the boss"
+                })
                 fireEvent(EVENTS.battleOver, Battle.current);
                 if (action.is_last_raid) {
                     fireEvent(EVENTS.questOver, {id: action.raid_id});
@@ -715,7 +724,11 @@ function battleAttack(json) {
     });
     var unit;
     var logs = [];
-
+    
+    instructPuppet({
+        action: "attacked",
+        message: "Action confirmed. Proceed"
+    })
     for (let action of json.scenario) {
         let log = "";
         switch (action.cmd) {
@@ -776,7 +789,7 @@ function battleAttack(json) {
                         battleParseDamage(action.damage, actionData, BATTLE_ACTION_TYPES.dmgTaken);
                         actions.push(actionData);
                         logs.push(action);
-                        console.log(action);
+                        // console.log(action);
                         // checkInvalidatedDamage(actionData);
                     }
                 }
@@ -876,6 +889,10 @@ function battleAttack(json) {
                 }
                 break;
             case "win":
+                instructPuppet({
+                    action: "won",
+                    message: "Lloyd has killed the boss"
+                })
                 fireEvent(EVENTS.battleOver, Battle.current);
                 if (action.is_last_raid) {
                     fireEvent(EVENTS.questOver, {id: action.raid_id});
@@ -909,6 +926,10 @@ function battleUseSummon(json) {
     // var actions = [],
     // actionData;
 
+    instructPuppet({
+        action: "cast_summon",
+        message: "Action confirmed. Proceed"
+    })
     for (let action of json.scenario) {
         switch (action.cmd) {
             case "replace": // Chara swap. Used for Resurrection (like Europa), possibly other calls that change ally position.
@@ -917,6 +938,10 @@ function battleUseSummon(json) {
                 }
                 break;
             case "win":
+                instructPuppet({
+                    action: "won",
+                    message: "Lloyd has killed the boss"
+                })
                 fireEvent(EVENTS.battleOver, Battle.current);
                 if (action.is_last_raid) {
                     fireEvent(EVENTS.questOver, {id: action.raid_id});
