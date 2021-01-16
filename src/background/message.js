@@ -303,6 +303,7 @@ function hear(msg) {
                             message: "Energy check, warning."
                         })
                     break;
+                    case path.ismatch("quest/content/supporter"):
                     case path.ismatch("quest/content/supporter_raid"):
                         instructPuppet({
                             action: "friend_summon_loaded",
