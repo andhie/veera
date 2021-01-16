@@ -75,10 +75,18 @@ function hear(msg) {
                         Supplies.setTickets(msg.data.json);
                         break;
                     case path.ismatch("resultmulti/content/empty"):
+                        instructPuppet({
+                            action: "reward",
+                            message: "Gold Brick Dropped!!!"
+                        })
                         //raid ended no rewards
                         break
                     case path.ismatch("resultmulti/data"):// Raid loot screen
                     case path.ismatch("result/data"): // Quest loot screen
+                        instructPuppet({
+                            action: "reward",
+                            message: "Gold Brick Dropped!!!"
+                        })
                         Battle.checkResultScreen(msg.data);
                         Raids.checkNextQuest(msg.data.json);
                         Tools.logSupportUser(msg.data.json);

@@ -886,6 +886,11 @@ function battleAttack(json) {
             case "die":
                 if (action.to == "player") {
                     fireEvent(EVENTS.playerDeath, Battle.current);
+                    pos = action.pos;
+                    instructPuppet({
+                        action: "die" + pos,
+                        message: "Lloyd requests to trigger blackbox."
+                    })
                 }
                 break;
             case "win":
