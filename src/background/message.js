@@ -31,10 +31,10 @@ window.DevTools = {
             deverror("No active connection to DevTools.");
             return;
         }
-        this.connection.postMessage({action, data});
+        this.connection.postMessage({ action, data });
     },
     query(key) {
-        return new Promise(r => chrome.runtime.sendMessage({source: "bg", query: key}, ret => r(ret.value)));
+        return new Promise(r => chrome.runtime.sendMessage({ source: "bg", query: key }, ret => r(ret.value)));
     }
 };
 
@@ -46,7 +46,7 @@ function hear(msg) {
         path = msg.data.url.pathname;
         isData = msg.data.url.protocol == "data:";
     }
-    console.log(msg);
+    // console.log(msg);
     devlog("[background] Heard:", msg, isData ? "Data URI" : path);
     switch (msg.action) {
         case "request":
@@ -56,7 +56,7 @@ function hear(msg) {
                 switch (true) {
                     case path.ismatch("user/content/index"): // Homepage
                         State.haveInit("home");
-                        // eslint-disable-next-line no-fallthrough
+                    // eslint-disable-next-line no-fallthrough
                     case path.ismatch("profile/content/index"): // Profile
                     case path.ismatch("user/status"):
                         Profile.update(msg.data.json);
@@ -90,7 +90,7 @@ function hear(msg) {
                         Battle.checkResultScreen(msg.data);
                         Raids.checkNextQuest(msg.data.json);
                         Tools.logSupportUser(msg.data.json);
-                        // eslint-disable-next-line no-fallthrough
+                    // eslint-disable-next-line no-fallthrough
                     case path.ismatch("arcarum/open_chest"):
                     case path.ismatch("result/stage_only_data/"):
                     case path.ismatch("rest/board/open_chest"):
@@ -132,6 +132,10 @@ function hear(msg) {
                         break;
                     case path.ismatch("rest/raid/ability_result.json"):
                     case path.ismatch("rest/multiraid/ability_result.json"):
+                        instructPuppet({
+                            action: "cast_skill",
+                            message: "Cast Skill Action confirmed. Proceed"
+                        })
                         battleUseAbility(msg.data.json, msg.data.postData);
                         break;
                     case path.ismatch("rest/raid/normal_attack_result.json"):
@@ -165,7 +169,7 @@ function hear(msg) {
                         }
                         break;
                     case path.ismatch("quest/quest_data"):
-                        Raids.setPendingHost({json: msg.data.json});
+                        Raids.setPendingHost({ json: msg.data.json });
                         break;
                     case path.ismatch("quest/user_action_point"):
                         Profile.update(msg.data.json);
@@ -193,21 +197,21 @@ function hear(msg) {
                     case path.ismatch("weapon/decompose_multi"):
                         reduce(msg.data.json);
                         break;
-                        // quest/user_action_point  ==> before usage
-                        /*
-                        json:
-                            action_point: 141
-                            action_point_limit: 999
-                            elixir_half_recover_value: 56
-                            elixir_recover_value: 113
-                            max_action_point: "113"
-                        */
-                        // quest/quest_data ==> info
-                        /*
-                        json:
-                            action_point: "40"
-                            chapter_name: "Belial Impossible"
-                        */
+                    // quest/user_action_point  ==> before usage
+                    /*
+                    json:
+                        action_point: 141
+                        action_point_limit: 999
+                        elixir_half_recover_value: 56
+                        elixir_recover_value: 113
+                        max_action_point: "113"
+                    */
+                    // quest/quest_data ==> info
+                    /*
+                    json:
+                        action_point: "40"
+                        chapter_name: "Belial Impossible"
+                    */
                     case path.ismatch("disabled_job/"):
                         storePendingJobUnlock(msg.data.json);
                         break;
@@ -228,7 +232,7 @@ function hear(msg) {
                     // case path.ismatch("present/receive_all"):
                     case path.ismatch("present/receive"):
                     case path.ismatch("present/term_receive"):
-                    // case path.ismatch("present/term_receive_all"):
+                        // case path.ismatch("present/term_receive_all"):
                         // is  normally followed by article list but that only shows treasure. There's more to pick up than that...
                         if (!path.ismatch("confirm")) {
                             cratePickup(msg.data.json);
@@ -302,7 +306,7 @@ function hear(msg) {
                             action: "not_enough_bp",
                             message: "Energy check, warning."
                         })
-                    break;
+                        break;
                     case path.ismatch("quest/content/supporter"):
                     case path.ismatch("quest/content/supporter_raid"):
                         instructPuppet({
@@ -323,7 +327,7 @@ function hear(msg) {
                                 action: "raid_full_or_ended",
                                 message: "Zan Nen"
                             })
-                        } 
+                        }
                         break;
                 }
                 // General actions
@@ -332,14 +336,14 @@ function hear(msg) {
                 }
             }
             else if (msg.data.hasOwnProperty("html")) {
-                if (path.ismatch("quest/battle_key_check")){
-                    if (msg.data.html.substring(2,7) == "popup") {
+                if (path.ismatch("quest/battle_key_check")) {
+                    if (msg.data.html.substring(2, 7) == "popup") {
                         instructPuppet({
                             action: "raid_full_or_ended",
                             message: "Zan Nen"
                         })
                     }
-                }else if (path.ismatch("maintenance")) {
+                } else if (path.ismatch("maintenance")) {
                     startMaintTimer(msg.data.html);
                 }
             }
@@ -380,6 +384,9 @@ function hear(msg) {
             Tools.sparkProgress.reset();
             Tools.sparkProgress.evhSuppliesChange();
             break;
+        case "reconnect":
+            window.initializeWebSocketConnection();
+            break
     }
 }
 

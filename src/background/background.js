@@ -73,8 +73,8 @@ function MainInit() {
                 window.addEventListener(EVENTS.disconnected, evhDisconnect);
                 EVENTS.set = true;
             }
-
-            initializeWebSocketConnection();
+            window.initializeWebSocketConnection = initializeWebSocketConnection;
+            window.initializeWebSocketConnection();
 
             Time.sync();
             Time.checkReset();
@@ -262,14 +262,14 @@ function safeDivide(a, b) {
 
 function initializeWebSocketConnection()
 {
-    const wsUri = "ws://localhost:17228/echo";
+    const wsUri = "ws://127.0.0.1:17228/send";
 
     window.WebsocketConnection = new WebSocket(wsUri);
     window.WebsocketConnection.onopen = () => {
         console.log("CONNECTED");
         let message = {
             action: "init",
-            message: "Parazonium requests connection to Lloyd"
+            message: "Calling Naru Nee~"
         }
         instructPuppet(message)
     }

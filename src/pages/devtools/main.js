@@ -108,6 +108,11 @@ function getElement(no){
 
 window.onload = function() {
     document.getElementById('download-logs').addEventListener('click', exportLogs, false);
+    document.getElementById('reconnect-websocket').addEventListener('click', reconnect, false);
+}
+
+function reconnect(){
+    BackgroundPage.send("reconnect");
 }
 
 function exportLogs(){

@@ -631,11 +631,7 @@ function battleUseAbility(json, postData) {
     // Battle.log.checkReset();
     var actions = [],
         actionData;
-    
-    instructPuppet({
-        action: "cast_skill",
-        message: "Action confirmed. Proceed"
-    })
+
     for (let action of json.scenario) {
         switch (action.cmd) {
             case "ability":
