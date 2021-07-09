@@ -387,6 +387,17 @@ function hear(msg) {
         case "reconnect":
             window.initializeWebSocketConnection();
             break
+        case "raid-selection":
+            instructPuppet({
+                action: "raid-selection",
+                data: msg.data
+            })
+            break
+        case "stop-bot":
+            instructPuppet({
+                action: "stop-bot"
+            })
+            break;
     }
 }
 

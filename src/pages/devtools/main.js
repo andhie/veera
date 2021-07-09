@@ -109,10 +109,22 @@ function getElement(no){
 window.onload = function() {
     document.getElementById('download-logs').addEventListener('click', exportLogs, false);
     document.getElementById('reconnect-websocket').addEventListener('click', reconnect, false);
+    document.getElementById('stop-bot').addEventListener('click', stopBot, false);
+    document.querySelectorAll('.raid-selection').forEach(x => {
+        x.addEventListener('click', selectRaid, false)});
+}
+
+function selectRaid(event) {
+    var raid = event.target.getAttribute('raid');
+    BackgroundPage.send("raid-selection", raid);
 }
 
 function reconnect(){
     BackgroundPage.send("reconnect");
+}
+
+function stopBot(){
+    BackgroundPage.send("stop-bot");
 }
 
 function exportLogs(){

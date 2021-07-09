@@ -103,7 +103,7 @@
                 <li class="nav-tab" data-navpage="unf">UNF</li>
                 <li class="nav-tab" data-navpage="places">Places</li>
                 <li class="nav-tab" data-navpage="tools">Tools</li>
-                <li class="nav-tab" data-navpage="battlelog">Web Socket Battle Log</li>
+                <li class="nav-tab" data-navpage="bot">Narmaya Bot</li>
                 <li class="nav-tab" data-navpage="settings">Settings</li>
             </ul>
             <div id="dailies" class="tab active">
@@ -126,15 +126,24 @@
                     </ul>
                 </div>
             </div>
-            <div id="battlelog" class="tab">
+            <div id="bot" class="tab">
                 <div id="log-panel" class="panel">
-                    <span class="panel-header" data-event="collapse">Damage Taken Logs</span>
+                    <span class="panel-header" data-event="collapse">Bot Panel</span>
+                    <ul class="panel-content">
+                        <button id="reconnect-websocket">Reconnect</button>
+                        <button id="stop-bot">Stop</button>
+                        <div>
+                            <div><span>Selected Raid to Bot: </span><span id="current-bot-raid">None</span></div>
+                            <button class="raid-selection" raid="sandbox">Sandbox</button>
+                        </div>
+                    </ul>
+
+                    <span class="panel-header" data-event="collapse">Damage Logs</span>
                     <ul class="panel-content">
                         <div id="damage-received">
                         </div>
+                        <button id="download-logs">Export</button>
                     </ul>
-                    <button id="download-logs">Export</button>
-                    <button id="reconnect-websocket">Reconnect</button>
                 </div>
 
             </div>
