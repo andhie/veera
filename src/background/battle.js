@@ -680,13 +680,13 @@ function battleUseAbility(json, postData) {
                 }
                 break;
             case "win":
-                instructPuppet({
-                    action: "won",
-                    message: "Lloyd has killed the boss"
-                })
                 fireEvent(EVENTS.battleOver, Battle.current);
                 if (action.is_last_raid) {
                     fireEvent(EVENTS.questOver, {id: action.raid_id});
+                    instructPuppet({
+                        action: "won",
+                        message: "Lloyd has killed the boss via skill"
+                    })
                 }
                 break;
         }
@@ -890,13 +890,13 @@ function battleAttack(json) {
                 }
                 break;
             case "win":
-                instructPuppet({
-                    action: "won",
-                    message: "Lloyd has killed the boss"
-                })
                 fireEvent(EVENTS.battleOver, Battle.current);
                 if (action.is_last_raid) {
                     fireEvent(EVENTS.questOver, {id: action.raid_id});
+                    instructPuppet({
+                        action: "won",
+                        message: "Lloyd has killed the boss via attack"
+                    })
                 }
                 break;
         }
@@ -939,13 +939,13 @@ function battleUseSummon(json) {
                 }
                 break;
             case "win":
-                instructPuppet({
-                    action: "won",
-                    message: "Lloyd has killed the boss"
-                })
                 fireEvent(EVENTS.battleOver, Battle.current);
                 if (action.is_last_raid) {
                     fireEvent(EVENTS.questOver, {id: action.raid_id});
+                    instructPuppet({
+                        action: "won",
+                        message: "Lloyd has killed the boss via Summon"
+                    })
                 }
                 break;
         }
