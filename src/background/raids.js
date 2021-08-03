@@ -300,10 +300,21 @@ window.Raids = {
                 showNotif("Triggered quest!", {text: name, onclick: Raids.playTriggered});
             }
             updateUI("nextQuestTriggered", {nextQuest: name});
+
+            instructPuppet({
+                action: "reward",
+                message: "Gold Brick Dropped!!!",
+                data: "nightmare_triggered"
+            })
         }
         else { // This would happen when raidLoot updates the UI but it's good to be explicit.
             Raids.triggeredQuest = null;
             updateUI("nextQuestTriggered", {nextQuest: false});
+
+            instructPuppet({
+                action: "reward",
+                message: "Gold Brick Dropped!!!",
+            })
         }
     },
     playTriggered() { // called directly
