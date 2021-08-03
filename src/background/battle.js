@@ -683,11 +683,13 @@ function battleUseAbility(json, postData) {
                 fireEvent(EVENTS.battleOver, Battle.current);
                 if (action.is_last_raid) {
                     fireEvent(EVENTS.questOver, {id: action.raid_id});
-                    instructPuppet({
-                        action: "won",
-                        message: "Lloyd has killed the boss via skill"
-                    })
                 }
+
+                instructPuppet({
+                    action: "won",
+                    message: "Lloyd has killed the boss via skill",
+                    data: action.is_last_raid
+                })
                 break;
         }
     }
@@ -891,13 +893,18 @@ function battleAttack(json) {
                 break;
             case "win":
                 fireEvent(EVENTS.battleOver, Battle.current);
+                var msg;
                 if (action.is_last_raid) {
-                    fireEvent(EVENTS.questOver, {id: action.raid_id});
-                    instructPuppet({
-                        action: "won",
-                        message: "Lloyd has killed the boss via attack"
-                    })
+                    msg = "Lloyd has killed the boss via attack";
+                } else {
+                    msg = "A Stage cleared in multi stage battle";
                 }
+
+                instructPuppet({
+                    action: "won",
+                    message: msg,
+                    data: action.is_last_raid
+                })
                 break;
         }
     }
