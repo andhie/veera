@@ -67,6 +67,11 @@ window.UI = {
         document.getElementById("raids-panel").addEventListener("filter", evhRaidsFilter);
 
         document.addEventListener("change", evhGlobalSettingChange);
+
+        document.getElementById('reconnect-websocket').addEventListener('click', function() {
+            console.log("reconnect-websocket");
+            initializeWebSocketConnection();
+        }, false);
     },
 
     time: {
@@ -575,4 +580,48 @@ function evhGlobalSettingChange(ev) {
 // Misc
 function setGuildLink(path) {
     document.getElementById("guild-link").dataset.value = path;
+}
+
+function initializeWebSocketConnection()
+{
+    const wsUri = "ws://localhost:17228/echo";
+
+    var reconnect = false;
+    if (window.WebsocketConnection != null) {
+        reconnect = true;
+        console.log("Existing websocket connection found. Closing...")
+        window.WebsocketConnection.close(1000, "closing existing socket before opening new")
+    } else{
+        console.log("No existing websocket connection found.")
+    }
+
+    if (!reconnect) window.WebsocketConnection = new WebSocket(wsUri);
+
+    window.WebsocketConnection = new WebSocket(wsUri);
+    window.WebsocketConnection.onopen = () => {
+        console.log("CONNECTED");
+        let message = {
+            action: "init",
+            message: "Parazonium requests connection to Lloyd"
+        }
+        instructPuppet(message)
+    }
+    window.WebsocketConnection.onclose = () => {
+        console.log("DISCONNECTED");
+        if (reconnect) window.WebsocketConnection = new WebSocket(wsUri);
+    };
+    // window.WebsocketConnection.onmessage = (evt) => {
+    //     console.log('RESPONSE: ' + evt.data);
+    //     // websocket.close();
+    // };
+    window.WebsocketConnection.onerror = (evt) => {
+        console.log('ERROR:' + evt.data);
+    };
+}
+
+function instructPuppet(message)
+{
+    console.log("SENT: ");
+    console.log(message);
+    window.WebsocketConnection.send(JSON.stringify(message));
 }
